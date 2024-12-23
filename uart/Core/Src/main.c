@@ -66,10 +66,9 @@ static void MX_USART1_UART_Init(void);
   */
 int main(void)
 {
-	/* Buffer for uart  */
-	uint8_t uartBuff[12];
 
   /* USER CODE BEGIN 1 */
+ static char buff[] = "Hello\n";
 
   /* USER CODE END 1 */
 
@@ -100,10 +99,9 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* USER CODE END WHILE */
-	  strcpy((char*)uartBuff, "Hello\r\n");
-	  HAL_UART_Transmit(&huart1,uartBuff,sizeof(uartBuff),HAL_MAX_DELAY);
+	  HAL_UART_Transmit(&huart1, (uint8_t *)buff, strlen(buff), HAL_MAX_DELAY);
 	  HAL_Delay(500);
+    /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
   }
@@ -192,6 +190,7 @@ static void MX_GPIO_Init(void)
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOC_CLK_ENABLE();
+  __HAL_RCC_GPIOD_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */

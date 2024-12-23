@@ -60,8 +60,8 @@ all: main-build
 main-build: led-on-off.elf secondary-outputs
 
 # Tool invocations
-led-on-off.elf led-on-off.map: $(OBJS) $(USER_OBJS) /home/aizaz/devomech/learning/STM/led-on-off/STM32F103C8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "led-on-off.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"/home/aizaz/devomech/learning/STM/led-on-off/STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="led-on-off.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+led-on-off.elf led-on-off.map: $(OBJS) $(USER_OBJS) /home/aizaz/devomech/learning/stm32-f1/led-on-off/STM32F103C8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "led-on-off.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"/home/aizaz/devomech/learning/stm32-f1/led-on-off/STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="led-on-off.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
