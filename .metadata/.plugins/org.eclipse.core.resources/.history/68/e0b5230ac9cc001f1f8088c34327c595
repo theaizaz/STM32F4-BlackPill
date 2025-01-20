@@ -1,0 +1,61 @@
+/*
+ * ina226.c
+ *
+ *  Created on: Jan 6, 2025
+ *      Author: aizaz
+ */
+
+#include "ina226.h"
+#include "stm32f4xx_hal.h"  // Adjust this for your STM32 series
+
+
+#define I2C_BUFF_SIZE 20
+uint8_t i2c_buff[I2C_BUFF_SIZE];
+
+
+/* extern's */
+extern I2C_HandleTypeDef hi2c1;
+extern UART_HandleTypeDef huart1;
+
+
+
+/*
+ *  I2C Transmit API
+ *
+ *  HAL_I2C_Master_Transmit(hi2c, DevAddress, pData, Size, Timeout);
+ * */
+
+//void i2c_transmit(void){
+//
+//	HAL_StatusTypeDef res = HAL_I2C_Master_Transmit(&hi2c1, 0x40, i2c_buff, I2C_BUFF_SIZE, HAL_MAX_DELAY);
+//	if(res == HAL_OK){ /* acknowledged by slave */
+//		strcpy((char*)i2c_buff,"HAL_OK Tx\r\n");
+//	}
+//	else{
+//		strcpy((char*)i2c_buff,"Error Tx\r\n");
+////		strcpy((char*)i2c_buff,(char*)res);
+//	}
+//
+//	HAL_UART_Transmit(&huart1, i2c_buff, 20, 100);
+//	memset(i2c_buff,0,20);
+//
+//}
+void i2c_transmit(void) {
+    HAL_StatusTypeDef res;
+
+    // Transmit data over I2C
+    res = HAL_I2C_Master_Transmit(&hi2c1, (0x40<<1), i2c_buff, I2C_BUFF_SIZE, 500);
+
+    // Check the result of the transmission
+    if (res == HAL_OK) {
+        strcpy((char*)i2c_buff, "HAL_OK Tx\r\n");
+    } else {
+        strcpy((char*)i2c_buff, "Error Tx\r\n");
+    }
+
+    // Send feedback via UART
+    HAL_UART_Transmit(&huart1, i2c_buff, strlen((char*)i2c_buff), 100);
+
+    // Clear the buffer for future use
+    memset(i2c_buff, 0, I2C_BUFF_SIZE);
+}
